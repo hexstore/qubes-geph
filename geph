@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+watchdog() {
+    PID=$1
+
+    while(true); do
+        FAIL=0
+	NOW="$(TZ=UTC date +'%Y-%m-%dT%H:%I:%S')"
+
+        $(timeout 30 curl -s google.com > /dev/null) || FAIL=1
+        if [[ $FAIL -eq 1 ]]; then
+            echo "[${NOW} WARN geph::healthcheck] ** current status: incident **"
+	    sleep 1
+	    kill $PID
+        else
+            echo "[${NOW} INFO geph::healthcheck] ** current status: working **"
+            sleep 5
+        fi
+    done
+}
+
+watchdog $$ &
+
+geph4-client connect \
+  --exclude-prc \
+  --use-bridges \
+  --use-tcp \
+  --stdio-vpn=false \
+  --vpn-mode=tun-route \
+  --username=<USERNAME> \
+  --password=<PASSWORD>
+

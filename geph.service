@@ -1,0 +1,43 @@
+[Unit]
+Description=Geph Service
+Documentation=https://geph.io
+After=network.target nss-lookup.target
+
+[Service]
+Restart=always
+RestartSec=1
+TimeoutSec=60
+ExecStart=/usr/local/bin/geph
+KillMode=control-group
+LimitNPROC=10000
+LimitNOFILE=1000000
+
+AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE CAP_NET_RAW
+ProtectSystem=strict
+#ProtectHome=true
+ProtectKernelTunables=true
+#ProtectKernelModules=true
+ProtectControlGroups=true
+#ProtectKernelLogs=true
+ProtectHostname=true
+#ProtectClock=true
+ProtectProc=invisible
+ProcSubset=pid
+PrivateTmp=true
+#PrivateUsers=true
+#PrivateDevices=true
+PrivateIPC=true
+MemoryDenyWriteExecute=true
+NoNewPrivileges=true
+#LockPersonality=true
+#RestrictRealtime=true
+RestrictSUIDSGID=true
+#RestrictAddressFamilies=AF_INET
+#RestrictNamespaces=true
+#SystemCallFilter=write read openat close brk fstat lseek mmap mprotect munmap rt_sigaction rt_sigprocmask ioctl nanosleep select access execve getuid arch_prctl set_tid_address set_robust_list prlimit64 pread64 getrandom
+#SystemCallArchitectures=native
+#UMask=0077
+#IPAddressDeny=any
+
+[Install]
+WantedBy=multi-user.target
