@@ -12,6 +12,9 @@
 
 # Set firewall restriction policy
 
+# Export Qubes DNS nameserver NS1 and NS2
+. /var/run/qubes/qubes-ns
+
 # Stop all leaks between downstream (vif+) and upstream (Internet eth0):
 iptables -P FORWARD DROP
 iptables -I FORWARD -o eth0 -j DROP
@@ -31,6 +34,16 @@ ip6tables -I INPUT -i tun+ -j DROP
 # Allow established v6 traffic (v4 rule already present):
 #iptables -A INPUT -m conntrack --ctstate ESTABLISHED -j ACCEPT
 ip6tables -A INPUT -m conntrack --ctstate ESTABLISHED -j ACCEPT
+
+# Allow DNS lookups from local via tun device
+if [ -n "${NS1}" ]; then
+  iptables -I INPUT -i tun+ -p udp -s $NS1 --sport 53 -m state --state ESTABLISHED -j ACCEPT
+  iptables -I INPUT -i tun+ -p tcp -s $NS1 --sport 53 -m state --state ESTABLISHED -j ACCEPT
+fi
+if [ -n "${NS2}" ]; then
+  iptables -I INPUT -i tun+ -p udp -s $NS2 --sport 53 -m state --state ESTABLISHED -j ACCEPT
+  iptables -I INPUT -i tun+ -p tcp -s $NS2 --sport 53 -m state --state ESTABLISHED -j ACCEPT
+fi
 
 # Disable icmp packets
 #if iptables -C INPUT -p icmp -j ACCEPT
