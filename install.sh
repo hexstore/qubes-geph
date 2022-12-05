@@ -9,11 +9,13 @@ mkdir -p "${WORKDIR}"
 
 cd "${WORKDIR}"
 
+curl --proto '=https' -tlsv1.2 -sSfL "${REMOTE}/restrict-firewall" -o restrict-firewall
 curl --proto '=https' -tlsv1.2 -sSfL "${REMOTE}/geph.service" -o geph.service
 curl --proto '=https' -tlsv1.2 -sSfL "${REMOTE}/geph" -o geph
 
 sudo install -Dm755 -t /rw/usrlocal/bin "${WORKDIR}/geph"
 sudo install -Dm755 -t /rw/usrlocal/bin "${HOME}/QubesIncoming/geph-builder/geph4-client"
+sudo install -Dm755 -t /rw/config/qubes-firewall.d "${WORKDIR}/restrict-firewall"
 sudo cp /rw/config/rc.local /rw/config/rc.local.old
 
 set +x
