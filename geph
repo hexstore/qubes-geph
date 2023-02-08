@@ -24,7 +24,6 @@ watchdog $$ &
 geph4-client connect \
   --exclude-prc \
   --use-bridges \
-  --use-tcp \
   --stdio-vpn=false \
   --vpn-mode=tun-route \
   --username=<USERNAME> \
