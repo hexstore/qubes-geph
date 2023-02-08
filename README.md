@@ -2,6 +2,8 @@
 
 这是一个在Qubes OS中安装迷雾通的方案，旨在帮助Qubes OS用户在严重网络审查环境下突破封锁，让Qubes OS拥有连接Tor网络的能力。
 
+该项目主仓库在[sourcehut](https://git.sr.ht/~qubes/geph)上，并镜像在[GitHub](https://github.com/hexstore/qubes-geph)。
+
 ## 工作原理
 
 它基于Qubes OS的隔离机制，将迷雾通包装成一个网络服务盒子，迷雾通被守护运行在VPN模式下，为其它应用或服务盒子提供网络。
